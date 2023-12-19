@@ -38,9 +38,12 @@ class Tensor {
             // TODO
             // define the data layout for the Tensor
             // access the Tensor element
+            size_t idx = offset_ + (n * C * H * W) + (c * H * W) + (h * W) + w;
+            assert(n < N && c < C && h < H && w < W && "Index is out of bound");
+            return (*data_)[idx];
         }
         
-        // returns a slice of a tensor (used in mnist)
+        // returns a slice of a tensor (used in mnist) (the function only slices on the N-dimension)
         Tensor slice(size_t idx, size_t num) { 
             size_t offset = offset_ + idx * C * H * W;
             return Tensor(num, C, H, W, offset, data_);
